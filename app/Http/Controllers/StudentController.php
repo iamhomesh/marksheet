@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStudentRequest;
+use App\Models\Score;
 use App\Models\Student;
 use App\Models\Subject;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,8 @@ class StudentController extends Controller
     public function create()
     {
         $classes = Student::CLASS_SELECT;
-        return view('create', compact('classes'));
+        $subjects = Subject::get(['id', 'name']);
+        return view('create', compact('classes', 'subjects'));
     }
 
     public function store(StoreStudentRequest $request)
@@ -28,11 +30,14 @@ class StudentController extends Controller
             $moveLocation = '/uploads/photos/';
             $request->file('photo')->move(public_path() . $moveLocation, $fileName);
             $student = Student::create(array_merge($request->validated(), ['photo' => $moveLocation . $fileName]));
-            $subjects = [];
+
             foreach ($request->subjects as $subject){
-                $subjects[] = new Subject($subject);
+                Score::create([
+                    'student_id' => $student->id,
+                    'subject_id' => $subject['subject_id'],
+                    'score' => $subject['score'],
+                ]);
             }
-            $student->subjects()->saveMany($subjects);
             DB::commit();
             return response([
                 'status' => true,
@@ -50,8 +55,8 @@ class StudentController extends Controller
     public function studentsDatatable()
     {
         $query = Student::query();
-        $query->with(['subjects']);
-        $query->withSum('subjects', 'score');
+        $query->with(['scores']);
+        $query->withSum('scores', 'score');
         return datatables()->of($query)
             ->editColumn('id', function ($row) {
                 return $row->id;
@@ -59,11 +64,8 @@ class StudentController extends Controller
             ->editColumn('photo', function ($row) {
                 return asset($row->photo);
             })
-            ->addColumn('total_score', function ($row) {
-                return $row->subjects->sum('score');
-            })
             ->editColumn('scores', function ($row) {
-                return $row->subjects->map(fn($subject) => $subject->subject . " - " . $subject->score)->implode(', ');
+                return $row->scores->map(fn($score) => $score->score)->implode(', ');
             })
             ->toJson();
     }

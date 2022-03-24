@@ -65,12 +65,12 @@
                     data: 'class',
                 },
                 {
-                    name: 'subjects_sum_score',
-                    data: 'subjects_sum_score',
+                    name: 'scores_sum_score',
+                    data: 'scores_sum_score',
                     searchable: false
                 },
                 {
-                    name: 'subjects.score',
+                    name: 'scores.score',
                     data: 'scores',
                     visible: false
                 },

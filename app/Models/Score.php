@@ -4,19 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Subject extends Model
+class Score extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'student_id',
+        'subject_id',
+        'score',
         'created_at',
     ];
 
-    public function student(): BelongsTo
+
+    public function student()
     {
-        return $this->belongsTo(Student::class);
+        $this->belongsTo(Student::class);
     }
 }

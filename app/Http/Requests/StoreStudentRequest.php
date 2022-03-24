@@ -31,7 +31,7 @@ class StoreStudentRequest extends FormRequest
             'photo' => 'required|mimes:jpeg,png',
             'class' => ['required', 'string', Rule::in(Student::CLASS_SELECT)],
             'subjects' => 'required|array',
-            'subjects.*.subject' => 'required|string|max:255',
+            'subjects.*.subject_id' => 'required|exists:subjects,id',
             'subjects.*.score' => 'required|numeric|min:0|max:100',
         ];
     }

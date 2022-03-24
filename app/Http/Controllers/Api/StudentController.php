@@ -11,6 +11,6 @@ class StudentController extends Controller
 {
     public function index()
     {
-        return StudentResource::collection(Student::withSum('subjects', 'score')->orderByDesc('subjects_sum_score')->get());
+        return StudentResource::collection(Student::withSum('scores', 'score')->orderByDesc('scores_sum_score')->get());
     }
 }

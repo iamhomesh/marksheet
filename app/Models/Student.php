@@ -33,8 +33,8 @@ class Student extends Model
         '12th'
     ];
 
-    public function subjects(): HasMany
+    public function scores(): HasMany
     {
-        return $this->hasMany(Subject::class);
+        return $this->hasMany(Score::class);
     }
 }

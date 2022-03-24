@@ -19,7 +19,7 @@ class StudentResource extends JsonResource
             'roll_no' => $this->roll_no,
             'photo' => asset($this->photo),
             'class' => $this->class,
-            'total_score' => $this->subjects_sum_score ?? 0,
+            'total_score' => $this->scores_sum_score ?? 0,
         ];
     }
 }

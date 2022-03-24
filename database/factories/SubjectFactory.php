@@ -17,11 +17,8 @@ class SubjectFactory extends Factory
      */
     public function definition()
     {
-        $studentId = Student::withCount(['subjects'])->having('subjects_count', '<', 5)->inRandomOrder()->first()->id;
         return [
-            'student_id' => $studentId,
-            'subject' => $this->faker->words(3, true),
-            'score' => $this->faker->numberBetween(0, 100),
+            'name' => $this->faker->name,
         ];
     }
 }

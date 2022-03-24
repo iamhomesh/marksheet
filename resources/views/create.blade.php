@@ -52,18 +52,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @for($i = 0; $i < 5; $i++)
+                    @foreach($subjects as $index => $subject)
                         <tr>
                             <td>
-                                <input class="form-control" type="text" placeholder="Ex. English" id="subjects_{{ $i }}_subject" name="subjects[{{$i}}][subject]" required>
+                                {{ $subject->name }}
+                                <input class="form-control" type="hidden" value="{{ $subject->id }}" id="subjects_{{ $index }}_subject_id" name="subjects[{{$index}}][subject_id]" required>
                                 <div class="invalid-feedback"></div>
                             </td>
                             <td>
-                                <input class="form-control" type="number" placeholder="Ex. 55" id="subjects_{{ $i }}_score" name="subjects[{{$i}}][score]" required>
+                                <input class="form-control" type="number" placeholder="Ex. 55" id="subjects_{{ $index }}_score" name="subjects[{{$index}}][score]" required>
                                 <div class="invalid-feedback"></div>
                             </td>
                         </tr>
-                    @endfor
+                    @endforeach
                     </tbody>
                 </table>
                 <div>
